@@ -2,6 +2,7 @@
 import argparse
 import logging
 import os
+import shutil
 import signal
 import subprocess
 import sys
@@ -14,9 +15,20 @@ IMAGE = "docker.io/marpteam/marp-cli:latest"
 WORKDIR = "/home/marp/app"
 
 
-def podman_run(args, init=True, ports=None, detach=False):
+def _runtime():
+    for name in ("podman", "docker"):
+        if shutil.which(name):
+            return name
+    log.error("No container runtime found (install podman or docker)")
+    sys.exit(1)
+
+
+RUNTIME = _runtime()
+
+
+def container_run(args, init=True, ports=None, detach=False):
     cmd = [
-        "podman", "run",
+        RUNTIME, "run",
         "--rm",
         "-v", f"{os.getcwd()}:{WORKDIR}",
         "-e", f"LANG={os.environ.get('LANG', 'C.UTF-8')}",
@@ -37,13 +49,13 @@ def podman_run(args, init=True, ports=None, detach=False):
 def cmd_cli(args):
     rest = args.args
     log.info("Running marp CLI with: %s", " ".join(rest) if rest else "(default)")
-    os.execvp("podman", podman_run(rest))
+    os.execvp(RUNTIME, container_run(rest))
 
 
 def cmd_serve(args):
     port = args.port
     extra = ["-s", ".", "--allow-local-files"]
-    cmd = podman_run(extra, ports=[(port, "8080"), (37717, 37717)])
+    cmd = container_run(extra, ports=[(port, "8080"), (37717, 37717)])
 
     log.info("Starting server at http://localhost:%d", port)
     proc = subprocess.Popen(cmd)
@@ -68,20 +80,20 @@ def cmd_serve(args):
 def cmd_pdf(args):
     extra = ["slides.md", "--pdf", "--allow-local-files", "-o", "slides.pdf"]
     log.info("Generating PDF ...")
-    subprocess.run(podman_run(extra), check=True)
+    subprocess.run(container_run(extra), check=True)
     log.info("Done: slides.pdf")
 
 
 def cmd_html(args):
     extra = ["slides.md", "--allow-local-files", "-o", "html/index.html"]
     log.info("Generating HTML ...")
-    subprocess.run(podman_run(extra), check=True)
+    subprocess.run(container_run(extra), check=True)
     log.info("Done: html/index.html")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Marp slide deck builder via Podman"
+        description="Marp slide deck builder (via Podman or Docker)"
     )
     parser.add_argument(
         "--verbose", "-v", action="store_true",

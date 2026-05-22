@@ -20,14 +20,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate HTML slides
-        uses: docker://marpteam/marp-cli:latest
-        with:
-          args: slides.md --allow-local-files -o html/index.html
+        run: python3 marp.py html
 
       - name: Generate PDF slides
-        uses: docker://marpteam/marp-cli:latest
-        with:
-          args: slides.md --pdf --allow-local-files -o slides.pdf
+        run: python3 marp.py pdf
 
       - name: Commit rendered files if changed
         run: |

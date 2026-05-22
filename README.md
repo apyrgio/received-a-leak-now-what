@@ -1,10 +1,12 @@
 # Marp Slide Deck
 
-A [Marp](https://marp.app/) presentation built with **Podman** — no Node.js or Chrome required on your host.
+A [Marp](https://marp.app/) presentation built with **Podman** (or **Docker**) — no Node.js or Chrome required on your host.
+
+The script `marp.py` auto-detects which container runtime is available, preferring `podman` over `docker`.
 
 ## Prerequisites
 
-- [Podman](https://podman.io/) installed and running (rootless mode supported)
+- [Podman](https://podman.io/) or [Docker](https://docker.com/) installed
 - The official Marp CLI container image:
 
 ```sh
