@@ -85,7 +85,7 @@ def cmd_pdf(args):
 
 
 def cmd_html(args):
-    extra = ["slides.md", "--allow-local-files", "-o", "html/index.html"]
+    extra = ["slides.md", "--allow-local-files"]
     log.info("Generating HTML ...")
     subprocess.run(container_run(extra), check=True)
     log.info("Done: html/index.html")
