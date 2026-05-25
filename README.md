@@ -1,6 +1,12 @@
-# Marp Slide Deck
+# [SLIDES] Dataharvest 2026 - You received a leak, now what? A hands-on OPSEC simulation
 
-A [Marp](https://marp.app/) presentation built with **Podman** (or **Docker**) — no Node.js or Chrome required on your host.
+This repo contains the slides for Alex's and Kolja's presentation on Dataharvest 2026, titled ["You received a leak, now what? A hands-on OPSEC simulation"](https://dataharvest26.sched.com/event/2L8gG/you-received-a-leak-now-what-a-hands-on-opsec-simulation).
+
+A live version of the slides can be found in https://apyrgio.github.io/received-a-leak-now-what/
+
+## Overview
+
+This is a [Marp](https://marp.app/) presentation built with **Podman** (or **Docker**) — no Node.js or Chrome required on your host.
 
 The script `marp.py` auto-detects which container runtime is available, preferring `podman` over `docker`.
 
