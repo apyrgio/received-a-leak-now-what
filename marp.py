@@ -28,11 +28,15 @@ RUNTIME = _runtime()
 
 def container_run(args, init=True, ports=None, detach=False):
     cmd = [
-        RUNTIME, "run",
+        RUNTIME,
+        "run",
         "--rm",
-        "-v", f"{os.getcwd()}:{WORKDIR}",
-        "-e", f"LANG={os.environ.get('LANG', 'C.UTF-8')}",
-        "-e", "MARP_USER=root:root",
+        "-v",
+        f"{os.getcwd()}:{WORKDIR}",
+        "-e",
+        f"LANG={os.environ.get('LANG', 'C.UTF-8')}",
+        "-e",
+        "MARP_USER=root:root",
     ]
     if init:
         cmd.append("--init")
@@ -96,8 +100,7 @@ def main():
         description="Marp slide deck builder (via Podman or Docker)"
     )
     parser.add_argument(
-        "--verbose", "-v", action="store_true",
-        help="Enable debug logging"
+        "--verbose", "-v", action="store_true", help="Enable debug logging"
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
