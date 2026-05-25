@@ -29,7 +29,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add slides.html slides.pdf
+          git add index.html slides.pdf
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
@@ -40,7 +40,7 @@ jobs:
       - name: Copy artifacts under separate directory
         run: |
           mkdir html/
-          cp -r slides.html images/ html/
+          cp -r index.html images/ html/
 
       - name: Upload HTML artifact
         uses: actions/upload-artifact@v4
