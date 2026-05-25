@@ -377,12 +377,3 @@ Source: [Wikipedia — Chelsea Manning](https://en.wikipedia.org/wiki/Chelsea_Ma
 **Thank you**
 
 Questions? OPSEC war stories?
-
-<!--
-Presenter notes:
-- Part I (10 min), Part II (20 min), Part III (20 min), Part IV (10 min), Buffer (15 min)
-- Each story slide: ~1 min to walk through
-- Live demos: scrcpy for GrapheneOS phone → laptop, QubesOS laptop via HDMI
-- Have BlinkComparison ready for tamper-evident bag demo
-- Joke timing: deliver deadpan on the "sysadmin" punchline
--->
