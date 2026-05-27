@@ -2,7 +2,6 @@
 marp: true
 theme: default
 size: 16:9
-paginate: true
 title: You received a leak, now what?
 description: A hands-on OPSEC simulation covering the full lifecycle of a leak
 author: |
@@ -201,7 +200,7 @@ section.story h2 {
   font-size: 1.6em;
 }
 section.story .citation {
-  font-size: 0.75em;
+  font-size: 0.5em;
   color: #666;
   margin-top: 1.5em;
   border-top: 1px solid #ddd;
@@ -213,7 +212,7 @@ section.story .excerpt {
   padding: 0.6em 1em;
   margin: 0.8em 0;
   font-style: italic;
-  font-size: 0.95em;
+  font-size: 0.75em;
 }
 section.story small {
   margin-top: 1.5em;
@@ -249,7 +248,7 @@ li { margin-bottom: 0.3em; }
 <!-- ===== TITLE SLIDE ===== -->
 
 <!-- _class: lead -->
-![bg right:45%](images/title.jpg)
+![bg right:45%](images/wish_you_were_here.png)
 
 # You received a leak, now what?
 
@@ -270,7 +269,7 @@ FlokiNet
 
 ---
 
-## Lifecycle of a tip
+## Aspects of a tip
 
 <div class="columns">
 <div>
@@ -278,16 +277,19 @@ FlokiNet
 ### 1. First contact
 How sources learn where to send tips.
 
-### 2. GrapheneOS + Signal
-Hardening the mobile tipline + live demo.
+### 2. GrapheneOS + Signal = ❤️
+Hardening the mobile tipline
+
+### 3. Perimeter security
+Walls have ears, we have gears.
 
 </div>
 <div>
 
-### 3. QubesOS / SecureDrop
-Dedicated machines for air-gapped processing of tips + live demo.
+### 4. QubesOS + SecureDrop = ❤️
+Compartmentalization as a defense.
 
-### 4. Post-handling
+### 5. Post-handling
 Store it, share it, publish it, without burning your source.
 
 </div>
@@ -296,7 +298,7 @@ Store it, share it, publish it, without burning your source.
 ---
 
 <!-- _class: section-bg -->
-![bg brightness:0.4](images/source.jpg)
+![bg brightness:0.6](images/bench.jpg)
 
 # Part I
 
@@ -305,25 +307,147 @@ Store it, share it, publish it, without burning your source.
 
 ---
 
-## The tipline landing page
+<!-- _class: story -->
+## The tipline situation in 2013
 
-The first thing a whistleblower sees must not betray them.
+In 2013, an anonymous user contacted Micah Lee, then staff technologist at EFF
+and CTO at Freedom of the Press Foundation:
 
-- **No subdomains:** use `newsroom.org/tips` not `tips.newsroom.org`
-- **No analytics:** zero trackers, zero logging
-- **Tor-friendly** reachable via onion service, zero Javascript
-- **Trustworthy provider:** [FlokiNet](https://flokinet.is/) or similar; no logging of visits
+<div class="excerpt">
+
+From: anon108@■■■■■■■■■
+To: Micah Lee
+Date: Fri, 11 Jan 2013
+
+Micah,
+
+I’m a friend. I need to get information securely to **Laura Poitras** and her alone, but I can’t find an email/**gpg** key for her.
+
+Can you help?
+
+</div>
+
+
+<div class="citation">
+
+Source: [The Intercept —  Ed Snowden Taught Me To Smuggle Secrets Past Incredible Danger. Now I Teach You. ](https://theintercept.com/2014/10/28/smuggling-snowden-secrets/)
+
+</div>
 
 ---
 
-## Before they send a thing
+<!-- _class: story -->
+## The tipline situation in 2013
 
-Your landing page must coach them:
+That person was paranoid enough about security that even though they acquired
+Laura's PGP key, they proposed Micah to tweet it, just to be sure.
+
+<div class="excerpt">
+
+From: 303@riseup.net
+To: Micah Lee
+Date: Mon, 28 Jan 2013
+
+Hey Micah,
+This is **Laura Poitras**.
+Someone is trying to verify my fingerprint to this email. The person has proposed you **tweet the fingerprint**. Would you be able to tweet this to your acct:
+**1EBF 5F15 850C 540B 3142 F158 4BDD 496D 4C6C 5F25**
+Let me know if possible.
+Thanks,
+Laura
+
+</div>
+
+---
+
+![fg width:1200px](https://theintercept.com/wp-content/uploads/2014/10/micah_tweet.png?w=540)
+
+---
+
+<!-- _class: story -->
+## The tipline situation in 2013
+
+(maybe skip this)
+
+<div class="excerpt">
+
+From: **Laura Poitras**
+To: Micah Lee
+Date: Thu, 9 May 2013
+
+I’m working on something with **Glenn** and I really need to get him on a secure (preferably **Tails**) system. He does not have the technical skills to set this up himself, and I’m trying to keep things compartmentalized, so I don’t want to email him about this topic directly on a non-secure channel.
+
+</div>
+
+---
+
+<!-- _class: lead -->
+![bg brightness:0.95](https://www.franceinfo.fr/pictures/4DVmuRcH08VuGZhDpYOeWUNrbCw/0x0:1920x1080/1024x576/filters:format(avif):quality(50)/2016/08/23/citizen1.jpg)
+
+# Black swans exist
+
+---
+
+<!-- _class: story -->
+## Tiplines must be advertised to everyone
+
+### Washington Post - Blended with the news articles
+
+![fg](https://docs.securedrop.org/en/stable/_images/how_to_share_a_tip_securely.png)
+
+<div class="citation">
+
+Source: [Promoting Your SecureDrop Instance](https://docs.securedrop.org/en/stable/admin/deployment/getting_the_most_out_of_securedrop.html)
+
+</div>
+
+---
+
+<!-- _class: story -->
+
+![bg right:40%](https://docs.securedrop.org/en/stable/_images/nytimes_tweet.png)
+
+<br>
+<br>
+<br>
+Yes, even in print.
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="citation">
+
+Source: [Promoting Your SecureDrop Instance](https://docs.securedrop.org/en/stable/admin/deployment/getting_the_most_out_of_securedrop.html)
+
+</div>
+
+---
+
+## The tipline landing page
+
+What IT should know:
+
+- **No subdomains:** use `newsroom.org/tips` not `tips.newsroom.org`
+- **No analytics:** no trackers, zero logs
+- **Tor-friendly** no captchas, no Javascript
+- **Trustworthy hosting provider:** censorship-resistant, zero logs
+
+---
+
+## The tipline landing page
+
+What sources should know:
 
 - **Not from work:** no corporate devices, no corporate network
-- **Public spaces:** cafes, libraries, anywhere with transient IPs
-- **Files have fingerprints:** metadata can and will link back
-- **Mum's the word:** discussing whistleblowing with anyone can be fatal
+- **Public spaces:** cafes, libraries, anywhere not associated with you
+- **Files have fingerprints:** leaked files may get traced back to you
+- **Instructions:** how to securely use Signal/SecureDrop/etc.
+- **Loose lips sink ships:** never discuss whistleblowing activities
 
 ---
 
@@ -338,17 +462,26 @@ In 2010, Chelsea Manning was leaking classified documents. She felt isolated and
 Manning wrote: "but im not a source for you ... im talking to you as someone who needs moral and emotional fucking support", and Lamo replied: "i told you, none of this is for print."
 </div>
 
-<small>
-
-_Spoiler alert: Lamo informed the U.S. Army_
-
-</small>
+Spoiler alert: it was.
 
 <div class="citation">
 
 Source: [Wikipedia — Chelsea Manning](https://en.wikipedia.org/wiki/Chelsea_Manning#Manning_and_Adrian_Lamo)
 
 </div>
+
+---
+
+<!-- _class: story -->
+![bg right:30%](images/slide.webp)
+
+## Where do we go from here?
+
+A lot of things can go wrong. A lot of things can go right, as we learned from the now distant 2013.
+
+In 2026, we have new tools and more experience.
+
+Let's go **deeper**.
 
 ---
 
