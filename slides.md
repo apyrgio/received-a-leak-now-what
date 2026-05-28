@@ -24,6 +24,7 @@ section {
   background: var(--cream);
   color: var(--slate);
   padding: 60px;
+  position: relative;
 }
 
 h1 {
@@ -202,7 +203,10 @@ section.story h2 {
 section.story .citation {
   font-size: 0.5em;
   color: #666;
-  margin-top: 1.5em;
+  position: absolute;
+  bottom: 20px;
+  left: 60px;
+  right: 60px;
   border-top: 1px solid #ddd;
   padding-top: 0.8em;
 }
@@ -241,6 +245,10 @@ li { margin-bottom: 0.3em; }
 }
 .columns > div {
   flex: 1;
+}
+
+.text-center {
+  text-align: center;
 }
 
 </style>
@@ -289,7 +297,7 @@ Walls have ears, we have gears.
 ### 4. QubesOS + SecureDrop = ❤️
 Compartmentalization as a defense.
 
-### 5. Post-handling
+### 5. Post-verification
 Store it, share it, publish it, without burning your source.
 
 </div>
@@ -364,27 +372,32 @@ Laura
 
 ---
 
-<!-- _class: story -->
-## The tipline situation in 2013
+<!--[> _class: story <]-->
+<!--## The tipline situation in 2013-->
 
-(maybe skip this)
+<!--(maybe skip this)-->
 
-<div class="excerpt">
+<!--<div class="excerpt">-->
 
-From: **Laura Poitras**
-To: Micah Lee
-Date: Thu, 9 May 2013
+<!--From: **Laura Poitras**-->
+<!--To: Micah Lee-->
+<!--Date: Thu, 9 May 2013-->
 
-I’m working on something with **Glenn** and I really need to get him on a secure (preferably **Tails**) system. He does not have the technical skills to set this up himself, and I’m trying to keep things compartmentalized, so I don’t want to email him about this topic directly on a non-secure channel.
+<!--I’m working on something with **Glenn** and I really need to get him on a secure (preferably **Tails**) system. He does not have the technical skills to set this up himself, and I’m trying to keep things compartmentalized, so I don’t want to email him about this topic directly on a non-secure channel.-->
 
-</div>
+<!--</div>-->
+
+<!------->
+
+<!-- _class: lead -->
+![bg opacity blur](https://www.franceinfo.fr/pictures/4DVmuRcH08VuGZhDpYOeWUNrbCw/0x0:1920x1080/1024x576/filters:format(avif):quality(50)/2016/08/23/citizen1.jpg)
+
+Would you go through those hoops?
 
 ---
 
 <!-- _class: lead -->
 ![bg brightness:0.95](https://www.franceinfo.fr/pictures/4DVmuRcH08VuGZhDpYOeWUNrbCw/0x0:1920x1080/1024x576/filters:format(avif):quality(50)/2016/08/23/citizen1.jpg)
-
-# Black swans exist
 
 ---
 
@@ -490,20 +503,713 @@ Let's go **deeper**.
 
 # Part II
 
-## GrapheneOS + Signal
-*Your phone as a tipline.*
+## GrapheneOS + Signal = ❤️
+*Hardening the mobile tipline*
 
 ---
 
-## Harden Signal. Now.
+## What Signal knows about you
+
+- **Phone number:** Used to fight spam, switch devices, contact discovery
+- **IP address:** The IP address of your device
+- **Ephemeral keys:** Identifiers of your device and the devices you send messages to
+- **Registration PIN:** If you have enabled registration lock
+
+If Signal (or AWS) was malicious, it would theoretically track who's talking
+with who, based on IPs and ephemeral keys.
+
+---
+
+## Quick Signal wins
 
 | Setting | Why it matters |
 |---------|----------------|
-| **Sealed sender** | Signal itself can't see who's talking to whom |
+| **Sealed sender** | Harder for Signal/AWS to track who talks with whom |
 | **Disable link previews** | Previews = IP leak to the server behind the link |
 | **Registration lock** | Blocks SIM-swap hijacking |
-| **No notification content** | Prevents lock-screen metadata leaks |
-| **No SIM card** | SMS/MMS = attack surface; 0-days love SMS |
+| **No notification content (iOS-only)** | Do not store incoming messages to device |
+
+---
+
+## Registration lock
+
+- Signal numbers can switch to a different device (think lost/broken phones).
+- Sole requirement is to have ownership of phone number (but law enforcement also can).
+- Registration lock means that you can't do it, unless you remember a PIN.
+- Prevents recent phishing attacks against journalists:
+
+
+<div class="citation">
+
+Source: [Netzpolitik — Phishing](https://netzpolitik.org/2026/phishing-attack-numerous-journalists-targeted-in-attack-via-signal-messenger/)
+
+</div>
+
+---
+
+
+## iOS notifications
+
+- iOS stores all your notifications locally, with no way to disable it.
+- FBI used this avenue to partially restore Signal messages (even deleted ones).
+
+<div class="citation">
+
+Source: [Forbes — FBI](https://netzpolitik.org/2026/phishing-attack-numerous-journalists-targeted-in-attack-via-signal-messenger/)
+
+</div>
+
+---
+
+## FBI doesn't always win
+
+
+<div class="excerpt">
+
+(something about not getting round the phone)
+
+</div>
+
+
+<div class="citation">
+
+Source: [404 Media— Lockdown]()
+
+</div>
+
+---
+
+## How Cellebrite works
+
+(image of Cellebrite device on the right)
+
+Important terms:
+- **BFU:** "Before First unlock", i.e., device powered off or just booted
+- **AFU:** "After First unlock", i.e., device has been unlocked at least once
+- **TPM:** "Trusted Platform Module", an onboard-chip that prevents PIN guessing
+  - Available on iOS and certain Android devices.
+
+(show image of TPM)
+
+---
+
+(full picture of device that Cellebrite can unlock)
+
+---
+
+## Quick phone wins
+
+| Setting | Why it matters |
+|---------|----------------|
+| **Lockdown mode (iOS)** | Protection against device seizures/spyware |
+| **Advanced Protection (Android)** | Protection against device seizures/spyware |
+| **No SIM card (newsroom devices)** | lots of 0-days target SMS/MMS |
+
+---
+
+## GrapheneOS
+
+| Setting | Why it matters |
+|---------|----------------|
+| **Auto-reboot** | Brings device to BFU if not unlocked for `N` hours |
+| **Disable USB port on lock screen** | Prevents software bugs |
+| **No/sandboxed Google Play** | Makes Google integration smaller |
+| **User profiles** | Compartmentalization as a defense |
+| **Hardware attestation** | Protection against evil-maid attacks |
+| **Duress password** | Wipe device in case of physical intimidation |
+
+---
+
+## Live demo: GrapheneOS + Signal
+
+- Simple installation
+- User profiles (personal, tips, vaults)
+- Receiving a tip via Signal
+- Device VPN (Orbot)
+- Secure PDF viewer / browser
+
+---
+
+# Part III
+
+## Perimeter security
+*Walls have ears, we have gears.*
+
+---
+
+# Part IV
+
+## QubesOS + SecureDrop = ❤️
+*Compartmentalization as a defense.*
+
+---
+
+## Remember that WaPo reporter?
+
+- Mention that Macbook of WaPo reporter was compromised.
+- Signal can be subpoenaed to reveal phone numbers
+- Opening files with attachments can be very dangerous.
+
+---
+
+## Fake whistleblowers
+
+(mention ICIJ story)
+
+---
+
+## SecureDrop overview - Sources
+
+- Sources visit Tor site, receive a long codename
+- Sources can send messages, attachments
+- Sources can learn about replies only if they visit again
+
+(add picture of Tor landing page)
+
+---
+
+## SecureDrop overview - Journalists
+
+
+- Journalists have two laptops and four USB keys.
+- Download submissions over Tor from one laptop.
+- Decrypt submissions in other offline laptop.
+- Reply back to the user from original laptop.
+
+(add picture of two laptop airgap)
+
+---
+
+## SecureDrop woes
+
+- Upfront money investment (NUCs, laptops, router, USBs, IT person, physical space)
+  - The newsroom is getting more virtual by the day.
+- Journalist time investment: lots of passwords and keys to juggle, lots of
+  spam, infrequent communication
+- Freedom of the Press Foundation is working hard on fixing these problems:
+  - Ditch NUCs in favor of end-to-end encrypted protocol with centralized server.
+  - Ditch multiple laptops and Tails keys in favor of a single laptop.
+
+---
+
+## Qubes OS
+
+- Linux
+- Targeted at technical users
+- Everything is a VM
+- Compartmentat
+
+
+---
+
+## Live Demo: QubesOS + SecureDrop
+
+- Compartmentalization
+- Safe file viewing and printing
+- Search messages, export transcripts
+
+---
+
+<!-- _class: section-bg -->
+![bg brightness:0.5](images/handle_with_care1.jpg)
+
+# Part V
+
+## Post-verification
+*Store it, share it, publish it, without burning your source.*
+
+---
+
+<!-- _class: story -->
+
+![bg right:25%](images/its_happening2.png)
+
+## Post-verification
+
+You have verified in a secure fashion that the material is important.
+
+Possible scenarios:
+- **Store it**
+- **Share it privately**
+- **Go public**
+
+---
+
+<!-- _class: story -->
+
+## Store it offline
+
+<div class="columns">
+<div>
+
+Use [Veracrypt](https://veracrypt.io) on any USB drive!
+
+- Available on Windows/macOS
+- Third-party support on Android/iOS
+- Open-source
+- Offers plausible deniability
+
+</div>
+<div>
+
+![fg height:200px](https://www.premiumusb.com/content/images/sitepremium/customer-help/resource-center/flash-drive.jpg)
+
+</div>
+</div>
+
+---
+
+<!-- _class: story -->
+
+## Plausible deniability
+
+<div class="columns">
+<div>
+
+A Veracrypt drive can consist of two volumes:
+- **Outer volume:** Place decoy files in there (tax / health records, previous
+  investigations).
+- **Inner (hidden) volume:** Place sensitive files in there.
+
+In duress, offer the password of the **outer volume**.
+
+</div>
+<div>
+
+![fg](https://veracrypt.io/en/Beginner's%20Tutorial_Image_024.gif)
+
+</div>
+</div>
+
+---
+
+<!-- _class: story -->
+
+## Making it tamper-evident
+
+<div class="columns">
+<div>
+
+In cases of:
+- Shipping USB drive to someone
+- Crossing borders
+- Long-term storage
+
+<div class="citation">
+
+Source: [dys2p.com — Random Mosaic – Detecting unauthorized physical access with beans, lentils and colored rice](https://dys2p.com/en/2021-12-tamper-evident-protection.html#manipulation-auf-dem-versandweg)
+
+</div>
+
+</div>
+<div>
+
+![fg](https://dys2p.com/assets/images/tamper-evident-protection/nsa-pwn-cisco.jpg)
+
+</div>
+</div>
+
+---
+
+<!-- _class: section-bg -->
+![bg brightness:0.1](https://theintercept.com/wp-content/uploads/2014/10/fedex_redacted3.png?w=1024)
+
+#### Here's Micah's "flash drive gift" to Glenn Greenwald.
+
+<div class="citation">
+
+Source: [The Intercept —  Ed Snowden Taught Me To Smuggle Secrets Past Incredible Danger. Now I Teach You. ](https://theintercept.com/2014/10/28/smuggling-snowden-secrets/)
+
+</div>
+
+---
+
+<!-- _class: section-bg -->
+![bg](https://theintercept.com/wp-content/uploads/2014/10/fedex_redacted3.png?w=1024)
+
+---
+
+## Making it tamper-evident (the boring way)
+
+<div class="columns">
+<div>
+
+One way is to buy tamper evident bags...
+
+</div>
+<div>
+
+![fg](https://hsasecurity.net/wp-content/uploads/2020/11/HSA-Security-TAMPER-EVIDENT-BAG-WITH-VOIDOPEN-Message-2.jpg)
+
+</div>
+</div>
+
+---
+
+<!-- _class: story -->
+
+![bg right:40%](images/tamper_fail.png)
+
+... but if your threat model is law enforcement, assume that they have ways around it.
+
+<small>
+
+_(here, it's just a syringe with acetone)_
+
+</small>
+
+<div class="citation">
+
+Source: [DEF CON 30 - Tamper Evident Village ](https://www.youtube.com/watch?v=slhdowWjSuU)
+
+</div>
+
+---
+
+<!-- _class: story -->
+
+## Making it tamper-evident (the fun way)
+
+<div class="columns">
+<div>
+
+1. Grab a bean mix
+2. Wrap the USB drive with plastic wrap
+3. Put the beans and the USB drive in a vacuum bag
+3. Seal it with a vacuum sealer
+4. Take a picture of it from both sides
+5. Verify the mosaic with [BlinkComparison](https://play.google.com/store/apps/details?id=org.proninyaroslav.blink_comparison) (Android-only)
+
+<div class="citation">
+
+Source: [dys2p.com — Random Mosaic – Detecting unauthorized physical access with beans, lentils and colored rice](https://dys2p.com/en/2021-12-tamper-evident-protection.html#manipulation-auf-dem-versandweg)
+
+</div>
+
+
+</div>
+<div>
+
+![fg](https://dys2p.com/assets/images/tamper-evident-protection/blink.webp)
+
+<small>
+
+_Showcase of how blink comparison works_
+
+</small>
+
+</div>
+</div>
+
+---
+
+![bg right:50%](https://pmecdn.protonweb.com/image-transformation/?s=a&image=Keep_your_files_safe_and_private_1d23c0a646.png&width=1920&height=1014)
+
+## Store it online
+
+- [Proton Drive](https://proton.me/drive) offers end-to-end encryption.
+- For the paranoid, you can even create an anonymous account using Tor.
+
+---
+
+## Going public
+
+The material may have de-anonymization vectors that point back to the source.
+
+Let's see some prominent examples.
+
+---
+
+## Exhibit A - Simple metadata (multimedia)
+
+<div class="columns">
+<div>
+
+![fg](images/exhibit_a.png)
+
+</div>
+<div>
+
+![fg](images/exhibit_a_headline.png)
+
+</div>
+</div>
+
+<div class="text-center">
+
+⚠Photos may contain location and author info
+
+</div>
+
+<div class="citation">
+
+Source: [Wired — Oops! Did Vice Just Give Away John McAfee's Location With Photo Metadata?](https://www.wired.com/2012/12/oops-did-vice-just-give-away-john-mcafees-location-with-this-photo/)
+
+</div>
+
+---
+
+## Exhibit B - Complex metadata (PDF, MS Office)
+
+<div class="columns">
+<div>
+
+![fg](images/exhibit_b.png)
+
+</div>
+<div>
+
+![fg](images/exhibit_b_headline.png)
+
+</div>
+</div>
+
+<div class="text-center">
+
+⚠ PDFs and office documents may contain nested metadata.
+Think embedded photos, Word’s tracking changes feature.
+
+</div>
+
+<div class="citation">
+
+Source: [The Register — Metadata ruins Google's anonymous eBay Australia protest](https://www.theregister.com/on-prem/2008/05/30/metadata-ruins-googles-anonymous-ebay-australia-protest/1285606)
+
+</div>
+
+---
+
+## Exhibit C - Redactions
+
+<div class="columns">
+<div>
+
+![fg](images/exhibit_c.png)
+
+</div>
+<div>
+
+![fg](images/exhibit_c_headline.png)
+
+</div>
+</div>
+
+<div class="text-center">
+
+⚠ Redactions do not work if in a layer or not opaque
+
+</div>
+
+<div class="citation">
+
+Source: [The Verge — Sony’s confidential PlayStation secrets just spilled because of a Sharpie](https://www.theverge.com/2023/6/28/23777298/sony-ftc-microsoft-confidential-documents-marker-pen-scanner-oops)
+
+</div>
+
+---
+
+## Exhibit D - Physical watermarks
+
+<div class="columns">
+<div>
+
+![fg](images/exhibit_d.png)
+
+</div>
+<div>
+
+![fg](images/exhibit_d_headline.png)
+
+</div>
+</div>
+
+<div class="text-center">
+
+⚠ Printed documents may contain tracking dots
+
+</div>
+
+<div class="citation">
+
+Source: [The Atlantic — The Mysterious Printer Code That Could Have Led the FBI to Reality Winner](https://www.theatlantic.com/technology/archive/2017/06/the-mysterious-printer-code-that-could-have-led-the-fbi-to-reality-winner/529350/)
+
+</div>
+
+---
+
+## Exhibit E - Digital watermarks
+
+<div class="columns">
+<div>
+
+![fg height:370px](images/exhibit_e.png)
+
+</div>
+<div>
+
+![fg](images/exhibit_e_headline.png)
+
+</div>
+</div>
+
+<div class="text-center">
+
+⚠ Digital material accessible only to you may have invisible watermarks
+
+</div>
+
+<div class="citation">
+
+Source: [The Intercept — How Elon Musk Says He Catches Leakers at His Companies](https://theintercept.com/2022/12/15/elon-musk-leaks-twitter/)
+
+</div>
+
+---
+
+## Exhibit F - Canary tokens
+
+<div class="columns">
+<div>
+
+![fg](images/exhibit_f.png)
+
+</div>
+<div>
+
+- Most sane document viewers block them silently.
+- Microsoft Office asks to enable macros.
+- Adobe Acrobat asks if it's ok to connect to site.
+- Deanonymization is a click away.
+
+</div>
+</div>
+
+<div class="text-center">
+
+⚠ Trapped documents may phone home in major viewers
+
+</div>
+
+<div class="citation">
+
+Source: [Austin Martin — Canary Tokens](https://blog.amartinsec.com/blog/canary/)
+
+</div>
+
+---
+
+## Exhibit G - Fingerprinting
+
+<div class="columns">
+<div>
+
+![fg](images/exhibit_g.png)
+
+</div>
+<div>
+
+- Cameras, mics are subject to fingerprinting
+- Your way of writing is a fingerprint (stylometry)
+- Unlike watermarking, fingerprinting is useful only with a second match (much like human fingerprints)
+
+</div>
+</div>
+
+<div class="text-center">
+
+⚠ A/V equipment and writing style can be fingerprinted
+
+</div>
+
+<div class="citation">
+
+Source: [Digital Image Forensics: Camera Fingerprint and its Robustness](https://www.slideshare.net/slideshow/digital-image-forensics-camera-fingerprint-and-its-robustness/15069696)
+
+</div>
+
+---
+
+## Exhibit H - Environment
+
+<div class="columns">
+<div>
+
+![fg](images/exhibit_h.png)
+
+</div>
+<div>
+
+![fg](images/exhibit_h_headline.png)
+
+</div>
+</div>
+
+<div class="text-center">
+
+⚠ Cameras, microphones capture the surrounding environment
+
+</div>
+
+<div class="citation">
+
+Source: [Koreaboo — Japanese “Sasaeng” Tracked down a Female Idol’s Home by Zooming in on the Reflection in Her Eyes](https://www.koreaboo.com/stories/matsuoka-ena-sasaeng-obsessed-fan-idol-stalker-photo-eyes-reflection/)
+
+</div>
+
+---
+
+## Going public
+
+Practical advice:
+- Ensure that the source used **disposable equipment** not tied to them.
+- Ensure that the documents were **not directed** to the source.
+- Sanitize documents before publication:
+  - [Dangerzone](https://dangerzone.rocks/) (GUI)
+  - [MAT2](https://github.com/jvoisin/mat2) (CLI-only)
+
+---
+
+<!-- _class: story -->
+![bg right:30%](https://oxfordwaveresearch.com/wp-content/uploads/2017/09/Spectrogram12.9-768x1024.png)
+
+## OPSEC works!
+
+[KRIK](https://www.krik.rs) protected their source by not providing the prosecutors office with the original recording of an incriminating discussion.
+
+<div class="excerpt">
+
+In its latest letter to KRIK, the prosecutor’s office claims the recording is needed for forensic examination and insists it is not asking the newsroom to reveal its source, only to **provide the recording itself — either the original, its “closest copy,” or the device on which it was recorded.** The letter again threatens journalists with a **fine if they fail to comply**.
+
+</div>
+
+<div class="citation">
+
+Source: [OCCRP —  Serbian Prosecutors Threaten KRIK with Fine if it Fails to Submit Recording of a Conversation ]()
+
+</div>
+
+---
+
+<!-- _class: story -->
+![bg right:30%](images/document_forensics.jpg)
+
+## OPSEC works!
+
+[Radio New Zealand](https://www.rnz.co.nz) protected their source by not disclosing the document format that the source provided to them.
+
+<div class="excerpt">
+
+[...] the investigator interviewed more than **40 people** including those who accessed the Budget report **"via SharePoint"**, received a copy of the report as an **email attachment**, or **had printed it**. [...] It was unclear which version the reporter had seen.
+
+The Investigator asked to speak to the RNZ reporter [...] to discuss matters such as **the file format and version of the Budget Report disclosed to him**. The reporter and Radio New Zealand via its legal representation declined to do so.
+
+</div>
+
+<div class="citation">
+
+Source: [Radio New Zealand — Ministry of Education's $20,000 inquiry fails to find Budget leak to RNZ](https://www.rnz.co.nz/news/national/574602/ministry-of-education-s-20-000-inquiry-fails-to-find-budget-leak-to-rnz)
+
+</div>
 
 ---
 
