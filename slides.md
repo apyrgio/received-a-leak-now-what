@@ -920,6 +920,7 @@ Let's see some prominent examples.
 
 ---
 
+<!-- _class: story -->
 ## Exhibit A - Simple metadata (multimedia)
 
 <div class="columns">
@@ -949,6 +950,7 @@ Source: [Wired — Oops! Did Vice Just Give Away John McAfee's Location With Pho
 
 ---
 
+<!-- _class: story -->
 ## Exhibit B - Complex metadata (PDF, MS Office)
 
 <div class="columns">
@@ -979,6 +981,7 @@ Source: [The Register — Metadata ruins Google's anonymous eBay Australia prote
 
 ---
 
+<!-- _class: story -->
 ## Exhibit C - Redactions
 
 <div class="columns">
@@ -1008,6 +1011,7 @@ Source: [The Verge — Sony’s confidential PlayStation secrets just spilled be
 
 ---
 
+<!-- _class: story -->
 ## Exhibit D - Physical watermarks
 
 <div class="columns">
@@ -1037,6 +1041,7 @@ Source: [The Atlantic — The Mysterious Printer Code That Could Have Led the FB
 
 ---
 
+<!-- _class: story -->
 ## Exhibit E - Digital watermarks
 
 <div class="columns">
@@ -1066,6 +1071,7 @@ Source: [The Intercept — How Elon Musk Says He Catches Leakers at His Companie
 
 ---
 
+<!-- _class: story -->
 ## Exhibit F - Canary tokens
 
 <div class="columns">
@@ -1098,6 +1104,7 @@ Source: [Austin Martin — Canary Tokens](https://blog.amartinsec.com/blog/canar
 
 ---
 
+<!-- _class: story -->
 ## Exhibit G - Fingerprinting
 
 <div class="columns">
@@ -1129,6 +1136,7 @@ Source: [Digital Image Forensics: Camera Fingerprint and its Robustness](https:/
 
 ---
 
+<!-- _class: story -->
 ## Exhibit H - Environment
 
 <div class="columns">
