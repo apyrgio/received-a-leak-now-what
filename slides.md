@@ -697,12 +697,51 @@ Date: October 29, 2025
 ---
 
 <!-- _class: section-bg -->
-![bg brightness:0.35](images/grapheneos.webp)
+![bg brightness:0.35](images/ears.jpg)
 
 # Part III
 
 ## Perimeter security
 *Walls have ears, we have gears.*
+
+---
+
+<!-- _class: story -->
+![bg right:30%](images/faraday.jpg)
+
+## Perimeter security
+
+- A simple alarm system goes a long way.
+- A [Rayhunter](https://efforg.github.io/rayhunter/) device can inform you
+  of frequency eavesdroppers (IMSI catchers).
+- A faraday bag (right) can also help in special occasions.
+
+---
+
+<!-- _class: story -->
+![bg right:30%](images/imsi_catcher.jpg)
+
+## IMSI catchers
+
+A device that acts like a mobile tower.
+
+- They can collect who was in the same area with another person.
+- They can collect data and metadata for calls.
+- They can act as radio jammers.
+- They can downgrade the communications protocol to a weaker one, like 2G/3G.
+  * Unless you have GrapheneOS :-)
+
+---
+
+<!-- _class: section-bg -->
+![bg opacity blur](images/rayhunter.jpeg)
+
+## Were you in IJF this year perhaps?
+
+---
+
+<!-- _class: section-bg -->
+![bg](images/rayhunter.jpeg)
 
 ---
 
