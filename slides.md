@@ -200,16 +200,6 @@ section.story {
 section.story h2 {
   font-size: 1.6em;
 }
-section.story .citation {
-  font-size: 0.5em;
-  color: #666;
-  position: absolute;
-  bottom: 20px;
-  left: 60px;
-  right: 60px;
-  border-top: 1px solid #ddd;
-  padding-top: 0.8em;
-}
 section.story .excerpt {
   background: rgba(12, 35, 64, 0.04);
   border-left: 3px solid var(--gold);
@@ -223,6 +213,17 @@ section.story small {
   font-size: 0.7em;
 }
 
+/* --- Citations --- */
+.citation {
+  font-size: 0.5em;
+  color: #666;
+  position: absolute;
+  bottom: 20px;
+  left: 60px;
+  right: 60px;
+  border-top: 1px solid #ddd;
+  padding-top: 0.8em;
+}
 
 /* --- Footer --- */
 section::after {
@@ -368,7 +369,7 @@ Laura
 
 ---
 
-![fg width:1200px](https://theintercept.com/wp-content/uploads/2014/10/micah_tweet.png?w=540)
+![fg width:1200px](images/micah_tweet.png)
 
 ---
 
@@ -390,14 +391,14 @@ Laura
 <!------->
 
 <!-- _class: lead -->
-![bg opacity blur](https://www.franceinfo.fr/pictures/4DVmuRcH08VuGZhDpYOeWUNrbCw/0x0:1920x1080/1024x576/filters:format(avif):quality(50)/2016/08/23/citizen1.jpg)
+![bg opacity blur](images/citizenfour.jpg)
 
 Would you go through those hoops?
 
 ---
 
 <!-- _class: lead -->
-![bg brightness:0.95](https://www.franceinfo.fr/pictures/4DVmuRcH08VuGZhDpYOeWUNrbCw/0x0:1920x1080/1024x576/filters:format(avif):quality(50)/2016/08/23/citizen1.jpg)
+![bg brightness:0.95](images/citizenfour.jpg)
 
 ---
 
@@ -406,7 +407,7 @@ Would you go through those hoops?
 
 ### Washington Post - Blended with the news articles
 
-![fg](https://docs.securedrop.org/en/stable/_images/how_to_share_a_tip_securely.png)
+![fg](images/securedrop_tip_share.png)
 
 <div class="citation">
 
@@ -418,7 +419,7 @@ Source: [Promoting Your SecureDrop Instance](https://docs.securedrop.org/en/stab
 
 <!-- _class: story -->
 
-![bg right:40%](https://docs.securedrop.org/en/stable/_images/nytimes_tweet.png)
+![bg right:40%](images/nytimes_tweet.png)
 
 <br>
 <br>
@@ -508,92 +509,157 @@ Let's go **deeper**.
 
 ---
 
+<!-- _class: story -->
 ## What Signal knows about you
 
-- **Phone number:** Used to fight spam, switch devices, contact discovery
-- **IP address:** The IP address of your device
-- **Ephemeral keys:** Identifiers of your device and the devices you send messages to
-- **Registration PIN:** If you have enabled registration lock
+<div class="columns">
+<div>
 
-If Signal (or AWS) was malicious, it would theoretically track who's talking
-with who, based on IPs and ephemeral keys.
+- Signal publishes the subpoena orders that are not gagged in https://signal.org/bigbrother
+- Latest subpoena shows that Signals stores very little info:
+
+</div>
+<div>
+
+<div class="excerpt">
+
+We received a grand jury subpoena from the United States District Court for the District of Columbia which requested customer or subscriber account information for a list of **37 phone numbers**. Specifically, it asked us to produce the **account creation date and time**, as well as the **last connection date and time** for those accounts. This showcases increasing awareness of the remarkably little information Signal can make available in response to such requests in the first place.
+
+</div>
+</div>
+
+<div class="citation">
+
+Source: [Signal —  Grand jury subpoena for Signal user data in the United States District Court for the District of Columbia,  06 Mar 2026](https://signal.org/bigbrother/district-of-columbia/)
+
+</div>
 
 ---
+
+## What Signal knows about you
+
+| Information                  | How is it used                                        | Transient? |
+|------------------------------|-------------------------------------------------------|------------|
+| **Phone number**             | Used to fight spam, switch devices, discover contacts | ❌ |
+| **IP address**               | Used for rate limitting                               | ✅ |
+| **Ephemeral keys/tokens**    | Necessary to send messages, establish calls           | ✅ |
+| **Registration PIN**         | Prevent account hijiacking                            | ❌ |
+| **Device creation date**     | Used when listing linked devices                      | ❌ |
+| **Last connection date**     | Used for device expiration logic                      | ❌ |
+
+---
+
+## What Signal knows about you
+
+**If** Signal was forced to conduct active traffic analysis, the **IP
+addresses** and **ephemeral keys** _could_ help law enforcement build a graph of
+who talks with whom.
+
+---
+
 
 ## Quick Signal wins
 
 | Setting | Why it matters |
 |---------|----------------|
 | **Sealed sender** | Harder for Signal/AWS to track who talks with whom |
+| **Sealed sender -> Allow from anyone** | (see above)
 | **Disable link previews** | Previews = IP leak to the server behind the link |
 | **Registration lock** | Blocks SIM-swap hijacking |
-| **No notification content (iOS-only)** | Do not store incoming messages to device |
+| ~~**No notification content (iOS-only)**~~ (unnecessary as of May 2026) | Do not store incoming messages to device |
 
 ---
 
-## Registration lock
+<!-- _class: story -->
+## Importance of Registration Lock
 
-- Signal numbers can switch to a different device (think lost/broken phones).
-- Sole requirement is to have ownership of phone number (but law enforcement also can).
-- Registration lock means that you can't do it, unless you remember a PIN.
-- Prevents recent phishing attacks against journalists:
+On January 2026, dozens of journalists became the target of a phishing attack by
+a fraudulent "Signal Security Support ChatBot" account:
 
-
-<div class="citation">
-
-Source: [Netzpolitik — Phishing](https://netzpolitik.org/2026/phishing-attack-numerous-journalists-targeted-in-attack-via-signal-messenger/)
-
-</div>
-
----
-
-
-## iOS notifications
-
-- iOS stores all your notifications locally, with no way to disable it.
-- FBI used this avenue to partially restore Signal messages (even deleted ones).
-
-<div class="citation">
-
-Source: [Forbes — FBI](https://netzpolitik.org/2026/phishing-attack-numerous-journalists-targeted-in-attack-via-signal-messenger/)
-
-</div>
-
----
-
-## FBI doesn't always win
-
+<div class="columns">
+<div>
 
 <div class="excerpt">
 
-(something about not getting round the phone)
+Dear User, this is Signal Security Support ChatBot. We have noticed suspicious activity on your device, which could have led to data leak. We have also detected attempts to gain access to your private data in Signal. To prevent this, you have to pass verification procedure, entering the verification code to Signal Security Support Chatbot. DON’T TELL ANYONE THE CODE, NOT EVEN SIGNAL EMPLOYEES.
 
 </div>
+
+</div>
+
+<div>
+
+Possible end goal:
+
+- Reveal who communicates with whom.
+- Read messages **after** takeover.
+
+</div>
+
+<div class="citation">
+
+Source: [Netzpolitik — Numerous journalists targeted in attack via Signal Messenger](https://netzpolitik.org/2026/phishing-attack-numerous-journalists-targeted-in-attack-via-signal-messenger/)
+
+</div>
+
+---
+
+<!-- _class: story -->
+## What about the device itself?
+
+On January 2026 (again!) the FBI **raided** the home of Washington Post reporter Hannah Natanson, to gain access to her Signal contacts, which included at least **1,169** former and present US federal employees.
+
+Here's what we know from a court order:
+
+<div class="excerpt">
+
+[...] Because the iPhone was in Lockdown mode, CART could not extract that device
+
+</div>
+
+<div class="citation">
+
+Source: [404 Media — FBI Couldn’t Get into WaPo Reporter’s iPhone Because It Had Lockdown Mode Enabled](https://www.404media.co/fbi-couldnt-get-into-wapo-reporters-iphone-because-it-had-lockdown-mode-enabled/)
+
+</div>
+
+---
+
+<!-- _class: story -->
+![bg right:30%](images/cellebrite_device.jpg)
+
+## How Cellebrite and others work
+
+Important terms:
+- **BFU** (Before First unlock)
+  Device powered off or just booted
+- **AFU** (After First unlock)
+  Device has been unlocked at least once
+- **TPM** (Trusted Platform Module)
+  Onboard-chip that prevents PIN guessing
+  - Available on iOS and certain Android devices.
+
+---
+
+<!-- _class: story-->
+![bg](images/cellebrite_support.jpg)
 
 
 <div class="citation">
 
-Source: [404 Media— Lockdown]()
+Source: [GrapheneOS Discussion Forum: New Cellebrite capability obtained in Teams meeting](https://discuss.grapheneos.org/d/27698-new-cellebrite-capability-obtained-in-teams-meeting)
+Date: October 29, 2025
 
 </div>
 
 ---
 
-## How Cellebrite works
+## Cat and mouse game
 
-(image of Cellebrite device on the right)
-
-Important terms:
-- **BFU:** "Before First unlock", i.e., device powered off or just booted
-- **AFU:** "After First unlock", i.e., device has been unlocked at least once
-- **TPM:** "Trusted Platform Module", an onboard-chip that prevents PIN guessing
-  - Available on iOS and certain Android devices.
-
-(show image of TPM)
-
----
-
-(full picture of device that Cellebrite can unlock)
+- Lagging a bit behind iOS / Pixel releases
+- Android devices without TPM can be trivially extracted
+- BFU (passphrase) > BFU (PIN) > AFU
+- GrapheneOS has a section of its own and no serious exploit
 
 ---
 
@@ -613,8 +679,8 @@ Important terms:
 |---------|----------------|
 | **Auto-reboot** | Brings device to BFU if not unlocked for `N` hours |
 | **Disable USB port on lock screen** | Prevents software bugs |
-| **No/sandboxed Google Play** | Makes Google integration smaller |
-| **User profiles** | Compartmentalization as a defense |
+| **Sandboxed Google Play** | Makes Google integration smaller |
+| **User profiles** | Different settings/passwords/apps per profile |
 | **Hardware attestation** | Protection against evil-maid attacks |
 | **Duress password** | Wipe device in case of physical intimidation |
 
@@ -630,12 +696,18 @@ Important terms:
 
 ---
 
+<!-- _class: section-bg -->
+![bg brightness:0.35](images/grapheneos.webp)
+
 # Part III
 
 ## Perimeter security
 *Walls have ears, we have gears.*
 
 ---
+
+<!-- _class: section-bg -->
+![bg brightness:0.25](images/guardian_qubes.jpg)
 
 # Part IV
 
@@ -644,74 +716,140 @@ Important terms:
 
 ---
 
+<!-- _class: story -->
 ## Remember that WaPo reporter?
 
-- Mention that Macbook of WaPo reporter was compromised.
-- Signal can be subpoenaed to reveal phone numbers
-- Opening files with attachments can be very dangerous.
+<div class="columns">
+<div>
+
+FBI also seized her Macbook, portable hard drive and audio recording device
+
+![fg](images/fp_wapo_macbook.webp)
+
+</div>
+
+<div>
+
+... and gained access to it
+
+![fg](images/fp_wapo_access.webp)
+
+</div>
+</div>
+
+<div class="citation">
+
+Source: [Freedom of the Press Foundation — Five security lessons from the FBI’s Washington Post raid](https://freedom.press/digisec/blog/wapo-raid-security-lessons/)
+
+</div>
 
 ---
 
-## Fake whistleblowers
+<!-- _class: story -->
+## Remember that WaPo reporter?
 
-(mention ICIJ story)
+<div class="columns">
+<div>
+
+Then they took pictures and video recordings of the conversations and the attachments, because they noticed "Disappearing messages" were turned on.
+
+</div>
+
+<div>
+
+![fg](images/wapo_photographs.png)
+
+</div>
+</div>
+
+<div class="citation">
+
+Source: [Freedom of the Press Foundation — Five security lessons from the FBI’s Washington Post raid](https://freedom.press/digisec/blog/wapo-raid-security-lessons/)
+
+</div>
 
 ---
+
+## Possible outcomes
+
+- The FBI knows the display names / avatars of her Signal sources.
+- They can work in reverse and subpoena Signal to give them the phone numbers.
+  - We are not aware of any such action yet.
+
+---
+
+<!-- _class: story -->
+![bg right:30%](images/securedrop_logo.png)
+
+Signal has managed to wrangle source confidentiality and ease of use **extremely well**.
+
+Sources with a different threat model may choose to use SecureDrop.
+
+And that's a much different beast...
+
+---
+
+<!-- _class: story -->
+![bg right:55%](images/sd_guardian2.png)
+![bg](images/sd_submit.png)
 
 ## SecureDrop overview - Sources
 
-- Sources visit Tor site, receive a long codename
-- Sources can send messages, attachments
-- Sources can learn about replies only if they visit again
-
-(add picture of Tor landing page)
+- Sources visit Tor site, receive a long codename.
+- Sources can send messages, attachments.
+- Sources can learn about replies only if they visit again.
 
 ---
 
 ## SecureDrop overview - Journalists
 
+<div class="columns">
+<div>
 
-- Journalists have two laptops and four USB keys.
-- Download submissions over Tor from one laptop.
-- Decrypt submissions in other offline laptop.
-- Reply back to the user from original laptop.
+Journalists have two laptops and four USB keys.
 
-(add picture of two laptop airgap)
+Realistically, interacting with submissions takes **a lot** of time.
+
+</div>
+
+<div>
+
+![fg height:500px](images/securedrop_overview.png)
+
+</div>
+</div>
+
+---
+
+# Can we have a single laptop please?
 
 ---
 
-## SecureDrop woes
-
-- Upfront money investment (NUCs, laptops, router, USBs, IT person, physical space)
-  - The newsroom is getting more virtual by the day.
-- Journalist time investment: lots of passwords and keys to juggle, lots of
-  spam, infrequent communication
-- Freedom of the Press Foundation is working hard on fixing these problems:
-  - Ditch NUCs in favor of end-to-end encrypted protocol with centralized server.
-  - Ditch multiple laptops and Tails keys in favor of a single laptop.
-
----
+<!-- _class: story -->
+![bg right:45%](images/qubes_friday.jpg)
 
 ## Qubes OS
 
-- Linux
-- Targeted at technical users
-- Everything is a VM
-- Compartmentat
+- Linux-based OS
+- Same target group as Tails
+- ... but everything is a VM
+- Different window colors per environment
+- Not a daily driver, but a special-purpose machine
 
+**No need for different Tails keys!**
 
 ---
 
 ## Live Demo: QubesOS + SecureDrop
 
-- Compartmentalization
+- Personal, work, vault environments
 - Safe file viewing and printing
 - Search messages, export transcripts
 
 ---
 
 <!-- _class: section-bg -->
-![bg brightness:0.5](images/handle_with_care1.jpg)
+![bg brightness:0.5](images/handle_with_care.jpg)
 
 # Part V
 
@@ -721,7 +859,6 @@ Important terms:
 ---
 
 <!-- _class: story -->
-
 ![bg right:25%](images/its_happening2.png)
 
 ## Post-verification
@@ -752,7 +889,7 @@ Use [Veracrypt](https://veracrypt.io) on any USB drive!
 </div>
 <div>
 
-![fg height:200px](https://www.premiumusb.com/content/images/sitepremium/customer-help/resource-center/flash-drive.jpg)
+![fg height:200px](images/flash_drive.jpg)
 
 </div>
 </div>
@@ -776,7 +913,7 @@ In duress, offer the password of the **outer volume**.
 </div>
 <div>
 
-![fg](https://veracrypt.io/en/Beginner's%20Tutorial_Image_024.gif)
+![fg](images/veracrypt_tutorial.gif)
 
 </div>
 </div>
@@ -804,7 +941,7 @@ Source: [dys2p.com — Random Mosaic – Detecting unauthorized physical access 
 </div>
 <div>
 
-![fg](https://dys2p.com/assets/images/tamper-evident-protection/nsa-pwn-cisco.jpg)
+![fg](images/nsa_pwn_cisco.jpg)
 
 </div>
 </div>
@@ -812,20 +949,24 @@ Source: [dys2p.com — Random Mosaic – Detecting unauthorized physical access 
 ---
 
 <!-- _class: section-bg -->
-![bg brightness:0.1](https://theintercept.com/wp-content/uploads/2014/10/fedex_redacted3.png?w=1024)
+![bg](images/micah_gift_usb.png)
 
-#### Here's Micah's "flash drive gift" to Glenn Greenwald.
+---
+
+<!-- _class: section-bg -->
+![bg brightness:0.3](images/micah_gift_usb.png)
+
+#### UPS package that Micah used to ship a Tails key to Glenn Greenwald.
+
+<small>
+(notice "Flash Drive Gift" at the bottom)
+</small>
 
 <div class="citation">
 
 Source: [The Intercept —  Ed Snowden Taught Me To Smuggle Secrets Past Incredible Danger. Now I Teach You. ](https://theintercept.com/2014/10/28/smuggling-snowden-secrets/)
 
 </div>
-
----
-
-<!-- _class: section-bg -->
-![bg](https://theintercept.com/wp-content/uploads/2014/10/fedex_redacted3.png?w=1024)
 
 ---
 
@@ -839,7 +980,7 @@ One way is to buy tamper evident bags...
 </div>
 <div>
 
-![fg](https://hsasecurity.net/wp-content/uploads/2020/11/HSA-Security-TAMPER-EVIDENT-BAG-WITH-VOIDOPEN-Message-2.jpg)
+![fg](images/tamper_evident_bag.jpg)
 
 </div>
 </div>
@@ -890,7 +1031,7 @@ Source: [dys2p.com — Random Mosaic – Detecting unauthorized physical access 
 </div>
 <div>
 
-![fg](https://dys2p.com/assets/images/tamper-evident-protection/blink.webp)
+![fg](images/blink_comparison.webp)
 
 <small>
 
@@ -903,12 +1044,77 @@ _Showcase of how blink comparison works_
 
 ---
 
-![bg right:50%](https://pmecdn.protonweb.com/image-transformation/?s=a&image=Keep_your_files_safe_and_private_1d23c0a646.png&width=1920&height=1014)
+![bg right:50%](images/proton_drive.png)
 
 ## Store it online
 
 - [Proton Drive](https://proton.me/drive) offers end-to-end encryption.
 - For the paranoid, you can even create an anonymous account using Tor.
+
+---
+
+## Sharing it privately
+
+- Anonymous tips cannot always be trusted.
+- The fact that you opened it in QubesOS /GrapheneOS safely does not mean others have the same system.
+- Files must be sanitized.
+
+---
+
+<!-- _class: story -->
+
+## Phony whistleblowers
+
+The lure of confidential info was used against ICIJ journalists since April 2025 by Chinese state actors pretending to be whistleblowers:
+
+<div class="columns">
+<div>
+
+![fg](images/citizenlab_phony.png)
+
+</div>
+
+<div>
+
+<div class="excerpt">
+
+The email included a link that “Bai” said led to an **archive full of confidential records**. ICIJ concluded that the link was likely **malicious**, the **whistleblower a fake**, and the email a clumsy attempt to steal the reporter’s login details to access **source information and other sensitive data**.
+
+</div>
+
+</div>
+</div>
+
+<div class="citation">
+
+Source (left): [The Citizen Lab — How Chinese Actors Use Impersonation and Stolen Narratives to Perpetuate Digital Transnational Repression](https://citizenlab.ca/research/how-chinese-actors-use-impersonation-and-stolen-narratives-to-perpetuate-digital-transnational-repression/)
+Source (right): [ICIJ — Phony whistleblowers, fake journalists and cyber spies: ICIJ network targeted after China Targets probe](https://www.icij.org/investigations/china-targets/fake-journalists-cyber-spies-china-targets-reporters/)
+
+</div>
+
+---
+
+<!-- _class: story -->
+
+## Dangerzone
+
+<div class="columns">
+<div>
+
+- Open source desktop app
+- Maintained by Freedom of the Press Foundation
+- Supports Windows, macOS, Linux, Tails, Qubes
+- Supports more than 20 file types (PDFs, office, images)
+- https://dangerzone.rocks
+
+</div>
+
+<div>
+
+![fg](images/dz_usage.png)
+
+</div>
+</div>
 
 ---
 
@@ -1178,7 +1384,7 @@ Practical advice:
 ---
 
 <!-- _class: story -->
-![bg right:30%](https://oxfordwaveresearch.com/wp-content/uploads/2017/09/Spectrogram12.9-768x1024.png)
+![bg right:30%](images/spectrogram.png)
 
 ## OPSEC works!
 
